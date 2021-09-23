@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home | Clinica Odontologica</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}" href="../static/css/login.css">
+</head>
+<body>
+<!--/*@thymesVar id="usuario" type="com.dh.clinicaodontologica.model.Usuario"*/-->
+    <form action="/" th:action="@{/}" th:object="${usuario}" method="post">
+        <div class="container">
+            <p class="heading">Log in</p>
+            <div class="box">
+                <p>Usuario</p>
+                <div>
+                    <input type="text" placeholder="Ingresa su usuario" th:field="*{user}">
+                </div>
+                <span th:style="'position: relative; color: #ff4b2b; font-size: 0.7em; top: -13px;'" th:if="${#fields.hasErrors('user')}" th:errors="*{user}"></span>
+            </div>
+
+            <div class="box">
+                <p>Contraseña</p>
+                <div>
+                    <input type="password" placeholder="Ingresa tu contraseña" th:field="*{password}">
+                </div>
+                <span th:style="'position: relative; color: #ff4b2b; font-size: 0.7em; top: -13px;'" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+            </div>
+
+            <button class="loginBtn" type="submit">Log in</button>
+            <p class="text">¿Aún no tienes cuenta? <a href="/register">Regístrate</a></p>
+
+        </div>
+    </form>
+</body>
+</html>
