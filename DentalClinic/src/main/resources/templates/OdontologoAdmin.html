@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Odontologo administrador | Clínica Odontológica</title>
+    <link rel="stylesheet" th:href="@{/css/entity.css}" href="../static/css/entity.css">
+</head>
+<body>
+    <header class='header'>
+        <h1>Clínica odontológica</h1>
+        <nav>
+            <p th:text="${usuario.user}" class='username'></p>
+            <a href="/">Salir</a>
+        </nav>
+    </header>
+
+    <main>
+
+        <section>
+            <small>Administrador</small>
+            <div class='title'>
+              <h1 th:text="${usuario.user}" class='fullname'></h1>
+              <button class='editUser'>&#x270E</button>
+            
+              <form action="" class='user active formUser'>
+              
+                <section class='user'>
+
+                  
+                  <div class="box">
+                    <p>Nombre</p>
+                    <div>
+                      <input class='name' type="text" placeholder="Ingresa tu nombre">
+                    </div>
+                    <span class="errorN"></span>
+                  </div>
+                  
+                  <div class="box">
+                    <p>Apellido</p>
+                    <div>
+                      <input class='lastname' type="text" placeholder="Ingresa tu Apellido">
+                    </div>
+                    <span class="errorL"></span>
+                  </div>
+                  
+                  
+                  <button type='submit' class='mainBtn'>Actualizar usuario</button>
+                  
+                  <button class='closeUser' type='button'>Cerrar</button>
+                </section>
+                
+              </form>
+            
+            </div>
+            <h4>Turnos programados</h4>
+        </section>
+        
+        <table class='table'>
+            <tr>
+              <th class='ID'>ID</th>
+              <th>Paciente</th>
+              <th>Odontologo</th>
+              <th>Fecha turno</th>
+              <th>Hora turno</th>
+              <th>Editar</th>
+              <th>Borrar</th>
+            </tr>
+            <tbody class= 'data'>
+            </tbody>
+          </table>
+
+          <div class="buttons insert">
+            <form action="" class='pop active formTurno'>
+              
+              <section class='pop'>
+  
+                <div class="box">
+                  <p>Paciente</p>
+                  <div>
+                    
+                    <select class='optionPaciente'>
+                      <option value="">Hola</option>
+                    </select>
+
+                  </div>
+                  <span class="errorPV"></span>
+                </div>
+                
+                <div class="box">
+                  <p>Odontologo</p>
+                  <div>
+                    <select class='optionOdontologo'>
+                      <option value="">Hola</option>
+                    </select>
+                  </div>
+                  <span class="errorPV"></span>
+                </div>
+                
+                <div class="box">
+                  <p>Fecha turno</p>
+                  <div>
+                    <input class='dateTurno' type="date">
+                  </div>
+                  <span class="errorPV"></span>
+                </div>
+                
+                <div class="box">
+                  <p>Hora turno</p>
+                  <div>
+                    <input class='timeTurno' type="time">
+                  </div>
+                  <span class="errorPV"></span>
+                </div>
+                
+                <button type='submit' class='mainBtn'>Añadir turno</button>
+                
+                <button class='closepop' type='button'>Cerrar</button>
+              </section>
+              
+            </form>
+          </div>
+          
+          <button class="mainBtn insertTurno">Ingresar turno</button>
+    </main>
+
+    <div class='active' id='overlay'></div>
+
+</body>
+<script th:src="@{/js/admin.js}"  src="../static/js/admin.js"></script>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro | Clínica Odontológica</title>
+    <link rel="stylesheet" th:href="@{/css/register.css}" href="../static/css/register.css">
+<body>
+    <form action="">
+        <p class="heading"> Sign in</p>
+        <div class="container">
+            
+            <section class="subcontainer">
+                <div class="box">
+                    <p>Usuario</p>
+                    <div>
+                        <input class='user' type="text" placeholder="Ingresa tu usuario">
+                    </div>
+                    <span class="errorU"></span>
+                </div>
+
+                <div class="box">
+                    <p>Contraseña</p>
+                    <div>
+                        <input class='pass' type="text" placeholder="Ingresa tu contraseña">
+                    </div>
+                    <span class="errorP"></span>
+                </div>
+
+                <div class="box">
+                    <p>Nombre</p>
+                    <div>
+                        <input class='name' type="text" placeholder="Ingresa tu nombre">
+                    </div>
+                    <span class="errorN"></span>
+                </div>
+
+                <div class="box">
+                    <p>Apellido</p>
+                    <div>
+                        <input class='lastname' type="text" placeholder="Ingresa tu Apellido">
+                    </div>
+                    <span class="errorL"></span>
+                </div>
+
+            </section>
+
+            <section class="subcontainer">
+                <div class="box">
+                    <p>Calle</p>
+                    <div>
+                        <input class="calle" type="text" placeholder="Ingresa tu calle">
+                    </div>
+                    <span class="errorC"></span>
+                </div>
+                
+                <div class="box">
+                    <p>Numero</p>
+                    <div>
+                        <input class="numerocalle" type="text" placeholder="Ingresa tu número de calle">
+                    </div>
+                    <span class="errorNC"></span>
+                </div>
+                
+                <div class="box">
+                    <p>Localidad</p>
+                    <div>
+                        <input class="localidad" type="text" placeholder="Ingresa tu localidad">
+                    </div>
+                    <span class="errorLO"></span>
+                </div>
+                
+                <div class="box">
+                    <p>Provincia</p>
+                    <div>
+                        <input class="provincia" type="text" placeholder="Ingresa tu Provincia">
+                    </div>
+                    <span class="errorPV"></span>
+                </div>
+                
+            </section>
+            
+            <section class="subcontainer">
+                <label><input type="checkbox" class="isOdontologo" id="cbox1" value="isOdontologo">  ¿Eres odontologo?</label>
+                <div class='entityChar'>
+                    <div class="box">
+                        <p>DNI</p>
+                        <div>
+                            <input class="DNI" type="number" placeholder="Ingresa tu DNI">
+                        </div>
+                        <span class="errorDNI"></span>
+                    </div>
+    
+                    <div class="box">
+                        <p>Fecha de ingreso</p>
+                        <div>
+                            <input type="date" placeholder="Ingresa tu número de calle">
+                        </div>
+                        <span class="errorDate"></span>
+                    </div>
+                </div>  
+
+            </section>
+
+            <div class="buttons">
+                <button class="registerBtn">Registrarse</button>
+                <button class="clearBtn" type="reset">Limpiar</button>
+            </div>
+            
+
+        </div>
+    </form>
+</body>
+<script th:src="@{/js/register.js}"  src="../static/js/register.js"></script>
+</html>

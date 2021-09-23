@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error | Clínica Odontológica</title>
+    <link rel="stylesheet" th:href="@{/css/entity.css}" href="../static/css/entity.css">
+</head>
+<body>
+  <main class='errorPage'>
+
+    <section>
+      <h1 class='titleError'>Oops!</h1>
+      <h3 class='msgError'>No podemos encontrar la referencia que buscas, quizás intentaste entrar con un usuario que no existe, ¡vuelve al Home e inténtalo de nuevo!</h3>
+      <button class='mainBtn'>Home page</button>
+
+    </section>
+
+    <section>
+      <div class='anim_container'></div>
+    </section>
+
+  </main>
+</body>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.13/lottie.min.js'></script>  <!-- CDN -->
+<script th:src="@{/js/error.js}"  src='../static/js/error.js'></script>
+</html>
