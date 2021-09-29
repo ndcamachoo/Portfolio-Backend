@@ -1,9 +1,8 @@
 package com.dh.clinicaodontologica.controller;
 
-import com.dh.clinicaodontologica.model.Domicilio;
 import com.dh.clinicaodontologica.model.Odontologo;
-import com.dh.clinicaodontologica.model.Usuario;
 import com.dh.clinicaodontologica.service.OdontologoServiceImpl;
+import com.dh.clinicaodontologica.service.UsuarioServiceImpl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +19,7 @@ public class OdontologoController {
     /* ================== Atributos ====================*/
 
     private final OdontologoServiceImpl odontologoService;
+    private final UsuarioServiceImpl usuarioService;
     private static final Logger logger = Logger.getLogger(OdontologoController.class);
 
     /* ================== GET ====================*/
@@ -39,11 +39,11 @@ public class OdontologoController {
     /* ================== POST ====================*/
 
     @PostMapping("/save")
-    public ResponseEntity saveOdontologo(@RequestBody Odontologo odontologo){
+    public ResponseEntity<?> saveOdontologo(@RequestBody Odontologo odontologo){
 
         ResponseEntity response;
 
-        if(odontologoService.findUsuarioByUsername(odontologo.getUsuario().getUser()) != null){
+        if(usuarioService.findUsuarioByUsername(odontologo.getUsuario().getUser()) != null){
             response = new ResponseEntity("The username already exists, please change it", HttpStatus.CONFLICT);
             logger.debug("Guardado en la entidad Odontologos fallida -> Usuario ya existente (CONFLICTO)");
         }else if(odontologoService.findOdontologoByNumeroMatricula(odontologo.getNumeroMatricula()) != null){
@@ -57,17 +57,10 @@ public class OdontologoController {
         return response;
     }
 
-    @PostMapping("/test")
-    public Object testOdontologo(){
-        Usuario us = new Usuario("Nelson", "Camacho", "ndcamacho", "123456789");
-        Domicilio dm = new Domicilio("Calle Falsa","123", "Springfield", "Massachusetts");
-        return odontologoService.save(new Odontologo(123456789, true, us, dm));
-    }
-
     /* ================== PUT ====================*/
 
     @PutMapping("/update")
-    public ResponseEntity updateOdontologo(@RequestBody Odontologo odontologo){
+    public ResponseEntity<?> updateOdontologo(@RequestBody Odontologo odontologo){
 
         ResponseEntity response;
 
@@ -92,7 +85,9 @@ public class OdontologoController {
     /* ================== Constructor ====================*/
 
     @Autowired
-    public OdontologoController(OdontologoServiceImpl odontologoService) {
+    public OdontologoController(OdontologoServiceImpl odontologoService, UsuarioServiceImpl usuarioService) {
         this.odontologoService = odontologoService;
+        this.usuarioService = usuarioService;
     }
+
 }

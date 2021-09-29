@@ -2,8 +2,6 @@ package com.dh.clinicaodontologica.controller;
 
 
 import com.dh.clinicaodontologica.dto.TurnoDTO;
-import com.dh.clinicaodontologica.model.Odontologo;
-import com.dh.clinicaodontologica.model.Paciente;
 import com.dh.clinicaodontologica.model.Turno;
 import com.dh.clinicaodontologica.service.OdontologoServiceImpl;
 import com.dh.clinicaodontologica.service.PacienteServiceImpl;
@@ -14,8 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,11 +23,9 @@ public class TurnoController {
     /* ================== Atributos ==================== */
 
     private final TurnoServiceImpl turnoService;
-    private static final Logger logger = Logger.getLogger(TurnoController.class);
-    /* Temporal -> Solo por test*/
-
     private final PacienteServiceImpl pacienteService;
     private final OdontologoServiceImpl odontologoService;
+    private static final Logger logger = Logger.getLogger(TurnoController.class);
 
     /* ================== GET ==================== */
 
@@ -42,9 +36,9 @@ public class TurnoController {
     }
 
     @GetMapping("/{id}")
-    public Turno findTurnosById(@PathVariable Long id){
+    public TurnoDTO findTurnosById(@PathVariable Long id){
         logger.debug("Búsqueda en la entidad Turnos por el ID: " + id);
-        return turnoService.findById(id).get();
+        return turnoService.mapToDTO(turnoService.findById(id).get());
     }
 
     @GetMapping("/searchp/{username}")
@@ -59,10 +53,16 @@ public class TurnoController {
         return turnoService.findTurnosByOdontologo(username).stream().map(turnoService::mapToDTO).collect(Collectors.toList());
     }
 
+    @GetMapping("/week")
+    public List<Turno> listaTurnosSemanales(){
+        logger.debug("Lectura general de la entidad Turnos semanalmente");
+        return turnoService.listaTurnosSemanales();
+    }
+
     /* ================== POST ====================*/
 
     @PostMapping("/save")
-    public ResponseEntity saveTurno(@RequestBody TurnoDTO turnoDTO){
+    public ResponseEntity<?> saveTurno(@RequestBody TurnoDTO turnoDTO){
 
         ResponseEntity response = null;
         String[] nombreOdontologo = turnoDTO.getNombreOdontologo().split(", ");
@@ -83,18 +83,11 @@ public class TurnoController {
         return response;
     }
 
-    @PostMapping("/test")
-    public Object testTurno(){
-        Odontologo odTmp = odontologoService.findById(1L).get();
-        Paciente pcTmp = pacienteService.findById(1L).get();
-        return turnoService.save(new Turno(pcTmp,odTmp, LocalDate.of(2021,9,19), LocalTime.of(12,47)));
-    }
-
 
     /* ================== PUT ==================== */
 
     @PutMapping("/update")
-    public ResponseEntity updateTurno(@RequestBody TurnoDTO turnoDTO){
+    public ResponseEntity<?> updateTurno(@RequestBody TurnoDTO turnoDTO){
 
         ResponseEntity response;
         Turno turnoUpdate = turnoService.mapToEntity(turnoDTO);
@@ -133,10 +126,6 @@ public class TurnoController {
 
     /* ================== Constructor ==================== */
 
-    /*@Autowired
-    public TurnoController(TurnoServiceImpl turnoService) {
-        this.turnoService = turnoService;
-    }*/
 
     @Autowired
     public TurnoController(TurnoServiceImpl turnoService, PacienteServiceImpl pacienteService, OdontologoServiceImpl odontologoService) {

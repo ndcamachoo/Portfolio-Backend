@@ -1,7 +1,6 @@
 package com.dh.clinicaodontologica.service;
 
 import com.dh.clinicaodontologica.model.Paciente;
-import com.dh.clinicaodontologica.model.Usuario;
 import com.dh.clinicaodontologica.repository.IPacienteRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,16 +64,12 @@ public class PacienteServiceImpl implements IModelService<Paciente>{
         pacienteTmp.setUsuario(paciente.getUsuario());
         pacienteTmp.setDomicilio(paciente.getDomicilio());
         pacienteRepository.save(pacienteTmp);
-
+        logger.debug("Actualización de campos en la entidad Pacientes -> ID:" + paciente.getId());
         return "Paciente with id: " + paciente.getId() + " was updated";
     }
 
     /* ======= Useful functions =============*/
 
-    public Usuario findUsuarioByUsername(String username){
-        logger.debug("Búsqueda en la entidad Usuario filtrada por usuario");
-        return pacienteRepository.findUsuarioByUsername(username);
-    }
 
     public Paciente findPacienteByDNI(Integer DNI){
         logger.debug("Búsqueda en la entidad Pacientes filtrada por DNI");

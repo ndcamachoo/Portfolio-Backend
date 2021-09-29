@@ -1,6 +1,5 @@
 package com.dh.clinicaodontologica.service;
 
-import com.dh.clinicaodontologica.controller.TurnoController;
 import com.dh.clinicaodontologica.dto.TurnoDTO;
 import com.dh.clinicaodontologica.model.Odontologo;
 import com.dh.clinicaodontologica.model.Paciente;
@@ -10,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,6 +80,7 @@ public class TurnoServiceImpl implements IModelService<Turno> {
 
     @Override
     public String update(Turno turno) {
+
         Turno turnoTmp = turnoRepository.findById(turno.getId()).get();
         Odontologo odTmp = odontologoService.findOdontologoByFullname(turno.getOdontologo().getUsuario().getNombre(),turno.getOdontologo().getUsuario().getApellido());
         Paciente pcTmp = pacienteService.findPacienteByFullname(turno.getPaciente().getUsuario().getNombre(),turno.getPaciente().getUsuario().getApellido());
@@ -140,6 +141,14 @@ public class TurnoServiceImpl implements IModelService<Turno> {
 
         logger.debug("Entidad TurnoDTO mapeada a Turno");
         return turno;
+    }
+
+    public List<Turno> listaTurnosSemanales(){
+
+        LocalDate hoy = LocalDate.now();
+        LocalDate plusSevenDays = hoy.plusDays(7);
+
+        return turnoRepository.listaTurnosSemanales(hoy.toString(),plusSevenDays.toString());
     }
 
 

@@ -1,16 +1,15 @@
 package com.dh.clinicaodontologica.controller;
 
-import com.dh.clinicaodontologica.model.Domicilio;
 import com.dh.clinicaodontologica.model.Paciente;
-import com.dh.clinicaodontologica.model.Usuario;
 import com.dh.clinicaodontologica.service.PacienteServiceImpl;
+import com.dh.clinicaodontologica.service.UsuarioServiceImpl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+
 import java.util.List;
 
 @CrossOrigin
@@ -21,6 +20,7 @@ public class PacienteController {
     /* ================== Atributos ==================== */
 
     private final PacienteServiceImpl pacienteService;
+    private final UsuarioServiceImpl usuarioService;
     private static final Logger logger = Logger.getLogger(PacienteController.class);
 
     /* ================== GET ==================== */
@@ -40,11 +40,11 @@ public class PacienteController {
     /* ================== POST ====================*/
 
     @PostMapping("/save")
-    public ResponseEntity savePaciente(@RequestBody Paciente paciente){
+    public ResponseEntity<?> savePaciente(@RequestBody Paciente paciente){
 
         ResponseEntity response;
 
-        if(pacienteService.findUsuarioByUsername(paciente.getUsuario().getUser()) != null){
+        if(usuarioService.findUsuarioByUsername(paciente.getUsuario().getUser()) != null){
             response = new ResponseEntity("The username already exists, please change it", HttpStatus.CONFLICT);
             logger.debug("Guardado en la entidad Pacientes fallida -> Usuario ya existente (CONFLICTO)");
         }else if(pacienteService.findPacienteByDNI(paciente.getDNI()) != null){
@@ -58,17 +58,10 @@ public class PacienteController {
         return response;
     }
 
-    @PostMapping("/test")
-    public Object testPaciente(){
-        Usuario us = new Usuario("Nelson", "Camacho", "ndcamacho", "123456789");
-        Domicilio dm = new Domicilio("Calle Falsa","123", "Springfield", "Massachusetts");
-        return pacienteService.save(new Paciente(123456789, LocalDate.of(2021,9,15), us, dm));
-    }
-
     /* ================== PUT ==================== */
 
     @PutMapping("/update")
-    public ResponseEntity updatePaciente(@RequestBody Paciente paciente){
+    public ResponseEntity<?> updatePaciente(@RequestBody Paciente paciente){
 
         ResponseEntity response;
 
@@ -94,7 +87,8 @@ public class PacienteController {
     /* ================== Constructor ==================== */
 
     @Autowired
-    public PacienteController(PacienteServiceImpl pacienteService) {
+    public PacienteController(PacienteServiceImpl pacienteService, UsuarioServiceImpl usuarioService) {
         this.pacienteService = pacienteService;
+        this.usuarioService = usuarioService;
     }
 }

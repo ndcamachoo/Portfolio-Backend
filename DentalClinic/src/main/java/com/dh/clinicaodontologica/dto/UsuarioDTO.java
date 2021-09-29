@@ -1,6 +1,8 @@
 package com.dh.clinicaodontologica.dto;
 
-public class UsuarioDTO {
+import java.io.Serializable;
+
+public class UsuarioDTO implements Serializable {
 
     /* ================ Atributos ================= */
 
@@ -35,6 +37,16 @@ public class UsuarioDTO {
     }
 
     /* ================ Métodos ================= */
+
+    @Override
+    public String toString() {
+        return "UsuarioDTO{" +
+                "id=" + id +
+                ", fullname='" + fullname + '\'' +
+                ", user='" + user + '\'' +
+                '}';
+    }
+
     /* ================ Constructor ================= */
 
     public UsuarioDTO(String fullname, String user) {

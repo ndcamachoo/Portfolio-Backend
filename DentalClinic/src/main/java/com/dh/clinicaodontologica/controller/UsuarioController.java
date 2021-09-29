@@ -31,7 +31,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity findUsuarioByUser(@PathVariable String username){
+    public ResponseEntity<?> findUsuarioByUser(@PathVariable String username){
 
         ResponseEntity response = null;
         Usuario usr = usuarioService.findUsuarioByUsername(username);
@@ -48,15 +48,15 @@ public class UsuarioController {
     }
 
     @GetMapping("/search/{id}")
-    public Usuario findUsuariosById(@PathVariable Long id){
+    public UsuarioDTO findUsuariosById(@PathVariable Long id){
         logger.debug("Búsqueda en la entidad Usuarios por el ID: " + id);
-        return usuarioService.findUsuarioById(id).get();
+        return usuarioService.mapToDTO(usuarioService.findUsuarioById(id).get());
     }
 
     /* ================== PUT ==================== */
 
     @PutMapping("/update")
-    public ResponseEntity updateUser(@RequestBody UsuarioDTO usuarioDTO){
+    public ResponseEntity<?> updateUser(@RequestBody UsuarioDTO usuarioDTO){
 
         ResponseEntity response;
 

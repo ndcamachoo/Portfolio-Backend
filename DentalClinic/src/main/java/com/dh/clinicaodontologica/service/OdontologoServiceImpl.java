@@ -1,8 +1,6 @@
 package com.dh.clinicaodontologica.service;
 
-import com.dh.clinicaodontologica.controller.OdontologoController;
 import com.dh.clinicaodontologica.model.Odontologo;
-import com.dh.clinicaodontologica.model.Usuario;
 import com.dh.clinicaodontologica.repository.IOdontologoRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,16 +63,12 @@ public class OdontologoServiceImpl implements IModelService<Odontologo>{
         odontologoTmp.setUsuario(odontologo.getUsuario());
         odontologoTmp.setDomicilio(odontologo.getDomicilio());
         odontologoRepository.save(odontologoTmp);
+        logger.debug("Actualización de campos en la entidad Odontologo -> ID:" + odontologo.getId());
 
         return "Odontologo with id: " + odontologo.getId() + " was updated";
     }
 
     /* ======= Useful functions =============*/
-
-    public Usuario findUsuarioByUsername(String username){
-        logger.debug("Búsqueda en la entidad Usuarios filtrada por usuario");
-        return odontologoRepository.findUsuarioByUsername(username);
-    }
 
     public List<Object> listUsernames(){
         logger.debug("Listado general en la entidad Usuarios filtrada por usuario");

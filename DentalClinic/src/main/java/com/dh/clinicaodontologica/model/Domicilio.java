@@ -1,7 +1,6 @@
 package com.dh.clinicaodontologica.model;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "domicilios")
