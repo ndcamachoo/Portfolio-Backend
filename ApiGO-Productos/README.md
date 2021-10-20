@@ -19,6 +19,23 @@
 2. **Implementación de pruebas unitarias** que garanticen la funcionalidad del servicio CRUD de la entidad producto mediante con **ginkgo y gomega (https://onsi.github.io/ginkgo/)**.
 3. **Implementación de un endpoint (volumes)** que retorne un archivo JSON estático (volumen_list.json) y que solicite **Basic Authentication** al de retornar respuesta.
 
+## Despliegue 📦
+
+Para ejecutar el proyecto en un contenedor en `docker` utilizando el `Dockerfile` ejecutar los siguientes comandos en la carpeta del proyecto:
+
+```bash
+docker build -t apigo-productos . # Crea la imagen ApiGo - Productos
+docker run --name api-productos -d -p 9098:9098 apigo-productos # Ejecutar el proyecto en el puerto 9098
+```
+
+De igual manera el contenedor se encuentra disponible en el repositorio de `Docker hub` para su uso. Se puede ejecutar mediante el siguiente comando.
+
+```bash
+docker run --name api-productos -d -p 9098:9098 ndcamachoo/api-productos
+```
+
+**Importante:** La ejecución del contenedor por puede ser tardía, recomiendo ver la consola del contenedor hasta que aparezcan los endpoints del API.
+
 
 ## Funcionalidades  🔧
 
