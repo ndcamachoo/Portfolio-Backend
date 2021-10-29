@@ -8,26 +8,26 @@ Este repositorio contiene una colección de ejemplos subdivididos en su correspo
 
 # Indicé 📓
 
-- Arrays
-- Bucles
-- Condicionales
-- Formateo de código
-- Funciones
-- Hola mundo
-- Inicialización
-- Map
-- Métodos y Herencia
-- Nuevos datos
-- Operadores
-- Otros
-- Paquetes
-- Patrones de diseño
-- Punteros
-- Range
-- Salida y entrada de datos
-- Scope
-- Seguridad
-- Variables
+- [Arrays](https://github.com/ndcamachoo/Portfolio-Backend/tree/main/GoExamples/Array)
+- [Bucles](https://github.com/ndcamachoo/Portfolio-Backend/tree/main/GoExamples/Bucles)
+- [Condicionales](https://github.com/ndcamachoo/Portfolio-Backend/tree/main/GoExamples/Condicionales)
+- [Formateo de código ](https://github.com/ndcamachoo/Portfolio-Backend/tree/main/GoExamples/FormatoDeCodigo)
+- [Funciones](https://github.com/ndcamachoo/Portfolio-Backend/tree/main/GoExamples/FormatoDeCodigo)
+- [Hola mundo](https://github.com/ndcamachoo/Portfolio-Backend/tree/main/GoExamples/HolaMundo)
+- [Inicialización](https://github.com/ndcamachoo/Portfolio-Backend/tree/main/GoExamples/Inicializacion)
+- [Map](https://github.com/ndcamachoo/Portfolio-Backend/tree/main/GoExamples/Maps)
+- [Métodos y Herencia](https://github.com/ndcamachoo/Portfolio-Backend/tree/main/GoExamples/MetodosHerencia)
+- [Nuevos datos](https://github.com/ndcamachoo/Portfolio-Backend/tree/main/GoExamples/NuevosDatos)
+- [Operadores](https://github.com/ndcamachoo/Portfolio-Backend/tree/main/GoExamples/Operadores)
+- [Otros](https://github.com/ndcamachoo/Portfolio-Backend/tree/main/GoExamples/Otros)
+- [Paquetes](https://github.com/ndcamachoo/Portfolio-Backend/tree/main/GoExamples/Paquetes)
+- [Patrones de diseño](https://github.com/ndcamachoo/Portfolio-Backend/tree/main/GoExamples/PatronesDeDiseño)
+- [Punteros](https://github.com/ndcamachoo/Portfolio-Backend/tree/main/GoExamples/Punteros)
+- [Range](https://github.com/ndcamachoo/Portfolio-Backend/tree/main/GoExamples/Range)
+- [Salida y entrada de datos](https://github.com/ndcamachoo/Portfolio-Backend/tree/main/GoExamples/SalidaEntradaDatos)
+- [Scope](https://github.com/ndcamachoo/Portfolio-Backend/tree/main/GoExamples/Scope)
+- [Seguridad](https://github.com/ndcamachoo/Portfolio-Backend/tree/main/GoExamples/Seguridad)
+- [Variables](https://github.com/ndcamachoo/Portfolio-Backend/tree/main/GoExamples/Variables)
 
 *ToDo:  + Patrones de diseño*
 
