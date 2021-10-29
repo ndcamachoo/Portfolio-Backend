@@ -1,0 +1,8 @@
+[2021-10-02 16:41:18] [ DEBUG] [OdontologoServiceImpl:79] Búsqueda en la entidad Odontologos filtrada por Numero de matrícula
+[2021-10-02 16:41:18] [ DEBUG] [OdontologoController:54] Dato guardado correctamente la entidad Odontologos 
+[2021-10-03 20:06:26] [ DEBUG] [OdontologoServiceImpl:79] Búsqueda en la entidad Odontologos filtrada por Numero de matrícula
+[2021-10-03 20:06:26] [ DEBUG] [OdontologoController:54] Dato guardado correctamente la entidad Odontologos 
+[2021-10-03 20:06:48] [ DEBUG] [OdontologoServiceImpl:84] Búsqueda en la entidad Odontologos filtrada por usuario
+[2021-10-03 20:06:48] [ DEBUG] [TurnoController:34] Lectura general de la entidad Turnos
+[2021-10-03 20:06:48] [ DEBUG] [UsuarioController:43] Búsqueda en la entidad Usuarios filtrada por el usuario: ndcamacho
+[2021-10-03 20:06:48] [ DEBUG] [UsuarioServiceImpl:70] Entidad Usuario mapeada a UsuarioDTO
