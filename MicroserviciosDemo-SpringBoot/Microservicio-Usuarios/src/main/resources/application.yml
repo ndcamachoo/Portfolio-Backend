@@ -1,0 +1,40 @@
+# Puerto del servicio
+server:
+  port: ${PORT:0} # Definimos el puerto 0 para que el sistema lo asigne
+
+## Cliente de Eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+# Define el nombre del servicio que se va a consumir desde el gateway
+spring:
+
+  sleuth: # Configuración de Sleuth
+    sampler: # Configuración de la muestra
+      probability: 1 # Probabilidad de que se muestre la traza
+
+  zipkin: # Configuración de Zipkin
+    base-url: http://zipkin-server:9411/ # URL base de Zipkin
+    sender:
+      type: rabbit  # Tipo de envío de la traza - rabbitMq
+
+  rabbitmq:
+    host: microservice-rabbitmq # Nombre del host
+
+  application:
+    name: servicio-usuarios
+
+  datasource: # Base de datos - JPA
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/db_springboot_cloud
+    username: postgres
+    password: root
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: create-drop
+

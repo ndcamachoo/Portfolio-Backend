@@ -1,0 +1,32 @@
+# Puerto del servicio
+server:
+  port: 9100 # Default: 9100 para el servicio de seguridad
+
+## Cliente de Eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+
+## Nombre de la aplicación
+spring:
+
+  sleuth: # Configuración de Sleuth
+    sampler: # Configuración de la muestra
+      probability: 1 # Probabilidad de que se muestre la traza
+
+  zipkin: # Configuración de Zipkin
+    base-url: http://zipkin-server:9411/ # URL base de Zipkin
+    sender:
+      type: rabbit  # Tipo de envío de la traza - rabbitMq
+
+  rabbitmq:
+    host: microservice-rabbitmq # Nombre del host
+
+  application:
+    name: servicio-oauth
+
+## Conexión al servidor de configuración
+  #config:
+    #import: 'optional:config-server:'
+

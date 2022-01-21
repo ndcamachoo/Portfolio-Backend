@@ -1,0 +1,142 @@
+version: '3.7' # Version del docker-compose
+services: # Servicios que se van a ejecutar
+
+  # Servicio de configuración global
+  config-server:
+    image: ndcamachoo/microservice-config-server:latest
+    ports: 
+      - "8888:8888"
+    restart: always
+    networks:
+      - springcloud
+    
+  # Servicio de enrutamiento de servicios
+  eureka-server:
+    image: ndcamachoo/microservice-eureka-server:latest
+    ports: 
+      - "8761:8761"
+    restart: always
+    networks:
+      - springcloud
+
+  # Servicio de base de datos MySQL
+  db-mysql:
+    image: mysql:latest
+    ports: 
+      - "3306:3306"
+    restart: always
+    networks:
+      - springcloud
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db_springboot_cloud
+
+  # Servicio de base de datos PostgreSQL
+  db-postgres:
+    image: postgres:14.1-alpine
+    ports: 
+      - "5432:5432"
+    restart: always
+    networks:
+      - springcloud
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: db_springboot_cloud
+  
+  # Microservicio de productos
+  microservice-productos:
+    image: ndcamachoo/microservice-productos:latest
+    restart: always
+    networks:
+      - springcloud
+    depends_on:
+      - config-server
+      - eureka-server
+      - db-mysql
+
+  # Microservicio de items
+  microservice-items:
+    image: ndcamachoo/microservice-items:latest
+    ports:
+      - "8002:8002"
+      - "8005:8005"
+      - "8007:8007"
+    restart: always
+    networks:
+      - springcloud
+    depends_on:
+      - config-server
+      - eureka-server
+      - microservice-productos
+  
+  # Microservicio de usuarios
+  microservice-usuarios:
+    image: ndcamachoo/microservice-usuarios:latest
+    restart: always
+    networks:
+      - springcloud
+    depends_on:
+      - config-server
+      - eureka-server
+      - db-postgres
+
+  # Microservicio de autorización
+  microservice-oauth:
+    image: ndcamachoo/microservice-oauth:latest
+    ports: 
+      - "9100:9100"
+    restart: always
+    networks:
+      - springcloud
+    depends_on:
+      - config-server
+      - eureka-server
+      - microservice-usuarios
+
+  # Microservicio de gateway
+  microservice-gateway:
+    image: ndcamachoo/microservice-gateway:latest
+    ports: 
+      - "8090:8090"
+    restart: always
+    networks:
+      - springcloud
+    depends_on:
+      - config-server
+      - eureka-server
+      - microservice-productos
+      - microservice-items
+      - microservice-usuarios
+      - microservice-oauth
+
+  # Microservicio de mensajeria 
+  microservice-rabbitmq:
+    image: rabbitmq:3.9.13-management-alpine
+    ports: 
+      - "15672:15672"
+      - "5672:5672"
+    restart: always
+    networks:
+      - springcloud
+
+  # Microservicio de Trazas
+  zipkin-server:
+    image: ndcamachoo/zipkin-server:latest
+    ports: 
+      - "9411:9411"
+    restart: always
+    networks:
+      - springcloud
+    depends_on:
+      - microservice-rabbitmq
+      - db-mysql
+    environment:
+      RABBIT_ADDRESSES: microservice-rabbitmq:5672 
+      STORAGE_TYPE: mysql
+      MYSQL_USER: zipkin
+      MYSQL_PASS: zipkin
+      MYSQL_HOST: db-mysql
+
+# Configuración de red interna
+networks:
+  springcloud:

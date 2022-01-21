@@ -1,0 +1,34 @@
+## Configuración YML
+
+# Resilience4J
+resilience4j:
+  circuitbreaker:
+    configs: # Configuración de circuit breakers
+      default: # Configuración por defecto → Definida por el usuario
+        sliding-window-size: 6 # Tamaño de ventana de peticiones
+        failure-rate-threshold: 50 # Porcentaje de fallos
+        wait-duration-in-open-state: 20s # Tiempo de espera en el estado abierto
+        permitted-number-of-calls-in-half-open-state: 4  # Número de llamadas permitidas en el estado de media apertura - Semi-abierto
+        slow-call-rate-threshold: 50 # Porcentaje de llamadas lentas
+        slow-call-duration-threshold: 2s # Tiempo de llamada lenta
+    instances:
+      items: # Nombre de los circuit breakers
+        base-config: default # Configuración base → Seleccionada a la instancia.
+
+  timelimiter: # Configuración de TimeLimiter
+    configs:
+      default:
+        timeout-duration: 6s # Tiempo de espera
+    instances:
+      items:
+        base-config: default # Configuración base → Seleccionada a la instancia.
+
+# Zipkin
+spring:
+  zipkin:
+    base-url: http://zipkin-server:9411/
+    sender:
+      type: rabbit
+
+  rabbitmq:
+    host: microservice-rabbitmq # Nombre del host

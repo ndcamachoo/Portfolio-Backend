@@ -1,0 +1,118 @@
+# Puerto del servicio
+server:
+  port: 8090
+
+## Cliente de Eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+
+## Resilience4J
+resilience4j:
+  circuitbreaker:
+    configs: # Configuración de circuit breakers
+      default: # Configuración por defecto → Definida por el usuario
+        sliding-window-size: 6 # Tamaño de ventana de peticiones
+        failure-rate-threshold: 50 # Porcentaje de fallos
+        wait-duration-in-open-state: 20s # Tiempo de espera en el estado abierto
+        permitted-number-of-calls-in-half-open-state: 4  # Número de llamadas permitidas en el estado de media apertura - Semi-abierto
+        slow-call-rate-threshold: 50 # Porcentaje de llamadas lentas
+        slow-call-duration-threshold: 5s # Tiempo de llamada lenta
+    instances:
+      productos: # Nombre de los circuit breakers
+        base-config: default # Configuración base → Seleccionada a la instancia.
+
+  timelimiter: # Configuración de TimeLimiter
+    configs:
+      default:
+        timeout-duration: 10s # Tiempo de espera
+    instances:
+      productos:
+        base-config: default # Configuración base → Seleccionada a la instancia.
+
+
+## Enrutamiento de los servicios
+# Define el nombre del servicio que se va a consumir desde el gateway
+spring:
+
+  sleuth: # Configuración de Sleuth
+    sampler: # Configuración de la muestra
+      probability: 1 # Probabilidad de que se muestre la traza
+
+  zipkin: # Configuración de Zipkin
+    base-url: http://zipkin-server:9411/ # URL base de Zipkin
+    sender:
+      type: rabbit
+
+  rabbitmq:
+    host: microservice-rabbitmq # Nombre del host
+
+  application:
+    name: servicio-gateway
+  cloud:
+    gateway:
+      #globalcors: # Configuración de CORS
+        #cors-configurations:
+          #'[/**]': # Configuración de CORS para todos los servicios
+            #allowed-origins: '*' # Origenes permitidos
+            #allowed-headers: '*' # Headers permitidos
+            #  - 'Authorization'
+            #  - 'Content-Type'
+            #allowed-methods: '*' # Métodos permitidos
+            #  - GET
+            #  - POST
+            #  - PUT
+            #  - DELETE
+            #  - OPTIONS
+            #allow-credentials: true # Permitir credenciales
+
+      routes: # Define las rutas que se van a consumir desde el gateway
+        - id: servicio-productos # Nombre del servicio
+          uri: lb://servicio-productos # Ruta del servicio (lb = load balancer -> Es un servicio que implementa el load balancing)
+          predicates: # Define los predicados que se van a utilizar para determinar si el servicio está disponible
+            - Path=/productos/** # Ruta del servicio
+          filters: # Define los filtros que se van a utilizar para determinar si el servicio está disponible
+            - StripPrefix=1 # Determina el número de prefijos que se van a eliminar (1 = /productos)
+            #- name: Ejemplo # Nombre del filtro personalizado
+              #args: # Argumentos del filtro personalizado
+              #  msg: 'Hola mundo'
+              #  cookieName: 'cookie-name'
+              #  cookieValue: 'cookie-value'
+            #- Ejemplo='Hola mundo', 'cookie-name', 'cookie-value' # Argumentos del filtro personalizado en una sola línea
+            #- CircuitBreaker=productos # Determina el nombre del circuit breaker que se va a utilizar utilizando Resilience4J
+            - name: CircuitBreaker
+              args: # Argumentos del filtro circuit breaker
+                name: productos # Nombre del circuit breaker
+                statusCodes: 500 # Códigos de error que se van a considerar como fallos
+                fallbackUri: forward:/items/0/cantidad/1 # Ruta de redirección cuando el circuit breaker está activo
+
+        - id: servicio-items
+          uri: lb://servicio-items
+          predicates:
+            - Path=/items/**
+            #- Header=token-request, \d+ # Predicado de fábrica → Determina si el header 'token' tiene un valor numérico
+            - Method=GET, POST # Predicado de fábrica → Determina si el método es GET o POST
+            #- Query=color, rojo # Predicado de fábrica → Determina si la query 'color' tiene el valor 'rojo' (?color=rojo) en la URL
+            #- Cookie=color, azul # Predicado de fábrica → Determina si la cookie 'color' tiene el valor 'azul'
+          filters:
+            - StripPrefix=1
+            - AddRequestHeader=token-request, 12345 # Filtro de fábrica → Añadir header al request (Nombre, Valor)
+            - AddResponseHeader=token-response, 54321 # Filtro de fábrica → Añadir header al response (Nombre, Valor)
+            - AddRequestParameter=nombre, Nel # Filtro de fábrica → Añadir parámetro al request (Nombre, Valor) # Se añade al controlador, mediante la anotación @RequestParam
+
+        - id: servicio-usuarios # Nombre del servicio
+          uri: lb://servicio-usuarios # Ruta del servicio (lb = load balancer -> Es un servicio que implementa el load balancing)
+          predicates: # Define los predicados que se van a utilizar para determinar si el servicio está disponible
+            - Path=/usuarios/** # Ruta del servicio
+          filters: # Define los filtros que se van a utilizar para determinar si el servicio está disponible
+            - StripPrefix=1 # Determina el número de prefijos que se van a eliminar (1 = /productos)e4J
+
+        - id: servicio-oauth # Nombre del servicio
+          uri: lb://servicio-oauth # Ruta del servicio (lb = load balancer -> Es un servicio que implementa el load balancing)
+          predicates: # Define los predicados que se van a utilizar para determinar si el servicio está disponible
+            - Path=/security/** # Ruta del servicio
+          filters: # Define los filtros que se van a utilizar para determinar si el servicio está disponible
+            - StripPrefix=1 # Determina el número de prefijos que se van a eliminar.
+
+  #config.import='optional:configserver'
