@@ -6,7 +6,7 @@ Este repositorio se plantea desde cero un servicio basado en arquitectura de mic
 
 ## Arquitectura 🛠️
 
-![Arquitectura](https://lh3.googleusercontent.com/zIckUDeQSSYDElCQUDtaMDFDGlqsQ5-_Hl6ZS-OAsiME2q24qLIZAGTw2c4PW5Oh4CquEd6XdpG1mMmKAvfQ=w1920-h960-rw)
+![Arquitectura](https://i.postimg.cc/fWGWK99k/Microservicio-Demo.png)
 
 ## Índice 📓
 
