@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: catalog-service
+  config:
+    import: "optional:configserver:http://config-server:8888"

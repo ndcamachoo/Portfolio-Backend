@@ -1,0 +1,221 @@
+version: '3.9' # Version del docker-compose
+services: # Servicios que se van a ejecutar
+
+  # Servicio de configuración global
+  config-server:
+    build: 
+      context: ConfigServer/
+    ports: 
+      - "8888:8888"
+    restart: always
+    networks:
+      - backendnetwork
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://config-server:8888/actuator/health" ]
+      interval: 5s
+      timeout: 3s
+      retries: 6
+    
+  # Servicio de enrutamiento de servicios
+  eureka-server:
+    build: 
+      context: EurekaServer/
+    ports: 
+      - "8761:8761"
+    restart: always
+    networks:
+      - backendnetwork
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://eureka-server:8761/actuator/health" ]
+      interval: 5s
+      timeout: 3s
+      retries: 6
+    depends_on:
+      config-server:
+        condition: service_healthy
+
+  # Servicio de base de datos MySQL
+  db-mysql:
+    image: mysql:latest
+    ports: 
+      - "3307:3306"
+    restart: always
+    networks:
+      - backendnetwork
+    environment:
+      MYSQL_ROOT_PASSWORD: dhbackend
+      MYSQL_DATABASE: backend_specialization
+
+  # Servicio de base de datos MongoDB
+  db-mongo:
+    image: mongo:latest
+    ports: 
+      - "27018:27017"
+    restart: always
+    networks:
+      - backendnetwork
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: dhbackend
+      MONGO_INITDB_DATABASE: backend_specialization
+    volumes:
+      - ./Config/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+  
+  # Microservicio de mensajeria 
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    ports: 
+      - "15672:15672"
+      - "5672:5672"
+    restart: always
+    volumes:
+      - ./Config/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      - ./Config/definitions.json:/etc/rabbitmq/definitions.json:ro
+    networks:
+      - backendnetwork
+  
+  # Microservicio de Movies
+  movie-service:
+    build: 
+      context: MovieService/
+    restart: always
+    networks:
+      - backendnetwork
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://movie-service:3141/actuator/health" ]
+      interval: 6s
+      timeout: 3s
+      retries: 6
+    depends_on:
+      db-mysql:
+        condition: service_started
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+
+  # Microservicio de Series
+  serie-service:
+    build: 
+      context: SerieService/
+    restart: always
+    networks:
+      - backendnetwork
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://serie-service:3141/actuator/health" ]
+      interval: 6s
+      timeout: 3s
+      retries: 6
+    depends_on:
+      db-mongo:
+        condition: service_started
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+
+  # Microservicio de Catalog
+  catalog-service:
+    build: 
+      context: CatalogService/
+    restart: always
+    networks:
+      - backendnetwork
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://catalog-service:3141/actuator/health" ]
+      interval: 6s
+      timeout: 3s
+      retries: 6
+    depends_on:
+      db-mongo:
+        condition: service_started
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_started
+      movie-service:
+        condition: service_healthy
+      serie-service:
+        condition: service_healthy
+  
+  # Microservicio de Users
+  user-service:
+    build: 
+      context: UserService/
+    restart: always
+    networks:
+      - backendnetwork
+    depends_on:
+      db-mongo:
+        condition: service_started
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+
+  # Microservicio de autorización
+  oauth-service:
+    build: 
+      context: SecurityOAuth/
+    ports: 
+      - "9100:9100"
+    restart: always
+    networks:
+      - backendnetwork
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://oauth-service:9100/actuator/health" ]
+      interval: 5s
+      timeout: 3s
+      retries: 6
+    depends_on:
+      user-service:
+        condition: service_started
+
+  # Microservicio de Gateway
+  gateway:
+    build: 
+      context: Gateway/
+    ports: 
+      - "8090:8090"
+    restart: always
+    networks:
+      - backendnetwork
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://gateway:8090/actuator/health" ]
+      interval: 5s
+      timeout: 3s
+      retries: 6
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+      oauth-service:
+        condition: service_healthy
+      movie-service:
+        condition: service_healthy
+      serie-service:
+        condition: service_healthy
+      catalog-service:
+        condition: service_healthy
+
+  # Microservicio de Trazas
+  zipkin-server:
+    image: openzipkin/zipkin
+    ports: 
+      - "9411:9411"
+    restart: always
+    networks:
+      - backendnetwork
+    environment:
+      RABBIT_ADDRESSES: rabbitmq:5672
+    depends_on:
+      rabbitmq:
+        condition: service_started
+
+
+# Configuración de red interna
+networks:
+  backendnetwork:

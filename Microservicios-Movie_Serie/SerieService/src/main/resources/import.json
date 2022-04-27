@@ -1,0 +1,104 @@
+[
+  {
+    "name": "Avatar: The Last Airbender",
+    "genre": "Action",
+    "seasons": [
+      {
+        "seasonNumber": 1,
+        "chapters": [
+          {
+            "name": "El niño en el iceberg",
+            "number": 1,
+            "urlStream": "https://www.netflix.com/co/title/70142405"
+          },{
+            "name": "El Avatar regresa",
+            "number": 2,
+            "urlStream": "https://www.netflix.com/co/title/70142405"
+          },{
+            "name": "El templo del Aire del Sur",
+            "number": 3,
+            "urlStream": "https://www.netflix.com/co/title/70142405"
+          }
+        ]
+      },{
+        "seasonNumber": 2,
+        "chapters": [
+          {
+            "name": "El estado avatar",
+            "number": 4,
+            "urlStream": "https://www.netflix.com/co/title/70142405"
+          },{
+            "name": "La cueva de los Dos enamorados",
+            "number": 5,
+            "urlStream": "https://www.netflix.com/co/title/70142405"
+          },{
+            "name": "El regreso a Omashu",
+            "number": 6,
+            "urlStream": "https://www.netflix.com/co/title/70142405"
+          }
+        ]
+      },{
+        "seasonNumber": 3,
+        "chapters": [
+          {
+            "name": "El despertar",
+            "number": 7,
+            "urlStream": "https://www.netflix.com/co/title/70142405"
+          },{
+            "name": "El pañuelo en la cabeza",
+            "number": 8,
+            "urlStream": "https://www.netflix.com/co/title/70142405"
+          },{
+            "name": "El pañuelo en la cabeza",
+            "number": 9,
+            "urlStream": "https://www.netflix.com/co/title/70142405"
+          }
+        ]
+      }
+    ]
+  },{
+    "name": "The legend of Korra",
+    "genre": "Adventure",
+    "seasons": [
+      {
+        "seasonNumber": 1,
+        "chapters": [
+          {
+            "name": "Bienvenida a Ciudad República",
+            "number": 1,
+            "urlStream": "https://www.primevideo.com/detail/0OJT9W3FR8X9OZUFC34UBLCL13"
+          },{
+            "name": "Una Hoja en el Viento",
+            "number": 2,
+            "urlStream": "https://www.primevideo.com/detail/0OJT9W3FR8X9OZUFC34UBLCL13"
+          },{
+            "name": "La Revelación",
+            "number": 3,
+            "urlStream": "https://www.primevideo.com/detail/0OJT9W3FR8X9OZUFC34UBLCL13"
+          }
+        ]
+      },{
+        "seasonNumber": 2,
+        "chapters": [
+          {
+            "name": "Una bocanada de aire fresco",
+            "number": 4,
+            "urlStream": "https://www.primevideo.com/detail/0OJT9W3FR8X9OZUFC34UBLCL13"
+          },{
+            "name": "Renacimiento",
+            "number": 5,
+            "urlStream": "https://www.primevideo.com/detail/0OJT9W3FR8X9OZUFC34UBLCL13"
+          },{
+            "name": "La Reina Tierra",
+            "number": 6,
+            "urlStream": "https://www.primevideo.com/detail/0OJT9W3FR8X9OZUFC34UBLCL13"
+          },{
+            "name": "En peligro",
+            "number": 7,
+            "urlStream": "https://www.primevideo.com/detail/0OJT9W3FR8X9OZUFC34UBLCL13"
+          }
+        ]
+      }
+    ]
+  }
+]
